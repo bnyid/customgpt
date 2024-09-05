@@ -148,4 +148,6 @@ def prompt_manager():
     root.mainloop()
     return selected_type, selected_prompt
 
-prompt_manager()
+
+if __name__ == "__main__":
+    prompt_manager()

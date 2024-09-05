@@ -1,9 +1,12 @@
+import json, os
 import tkinter as tk
 from tkinter import messagebox, ttk
-import json
 from openai import OpenAI
-from main import my_api_key
+from dotenv import load_dotenv
 
+
+load_dotenv()
+my_api_key = os.getenv("OPENAI_MY_API_KEY")
 
 # 메타데이터 로드
 def load_model_metadata():
@@ -18,6 +21,7 @@ def save_model_metadata(metadata):
         json.dump(metadata, f)
 
 def select_model(client):
+
     selected_model = None  # 선택된 모델 저장
     model_metadata = load_model_metadata()  # 메타데이터 로드
 
@@ -74,6 +78,7 @@ def select_model(client):
     def select_model_confirm():
         if selected_model:
             messagebox.showinfo("Model Selected", f"'{selected_model}'가 선택되었습니다.")
+            print(selected_model)
             root.destroy()  # 창을 닫음
         else:
             messagebox.showwarning("No Selection", "모델을 선택하지 않았습니다.")
@@ -145,5 +150,8 @@ def select_model(client):
 
     return selected_model  # 선택된 모델 반환
 
-client = OpenAI(api_key=my_api_key)
-select_model(client)
+
+if __name__ == "__main__":
+    client = OpenAI(api_key=my_api_key)
+    select_model(client)
+
