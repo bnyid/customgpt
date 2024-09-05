@@ -49,7 +49,7 @@ if selected_model:
                                                                     hyperparameters={'n_epochs':1},
                                                                     validation_file=file_upload_response_val.id
                                                                     )
-            fine_tuning_job_id = fine_tuning_response['id']
+            fine_tuning_job_id = fine_tuning_response.id
             messagebox.showinfo("Fine-tuning Started", f"Fine-tuning 작업이 시작되었습니다. ID: {fine_tuning_job_id}")
             
             # 작업 상태 확인 시작
