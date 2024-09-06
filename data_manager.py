@@ -63,7 +63,7 @@ def check_fine_tuning_status(client, fine_tuning_job_id):
         try:
             # Fine-tuning 작업 상태 확인
             fine_tune_status = client.fine_tuning.jobs.retrieve(fine_tuning_job_id)
-            status = fine_tune_status['status']
+            status = fine_tune_status.status
             
             if status == 'succeeded':
                 messagebox.showinfo("Fine-tuning Complete", "Fine-tuning 작업이 완료되었습니다!")
@@ -75,7 +75,7 @@ def check_fine_tuning_status(client, fine_tuning_job_id):
                 print(f"Fine-tuning in progress... Status: {status}")
                 
             # 30초 동안 대기 후 상태를 다시 확인
-            time.sleep(30)
+            time.sleep(5)
         
         except Exception as e:
             print(f"Error while checking fine-tuning status: {e}")

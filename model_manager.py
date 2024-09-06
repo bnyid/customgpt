@@ -100,13 +100,16 @@ def select_model(client):
     root.title("Select GPT Model")
     center_window(root, 800, 700)
     root.protocol("WM_DELETE_WINDOW", on_closing)
-    label = tk.Label(root, text="Select a GPT model")
+    label = tk.Label(root, text="폐기할 모델은 Memo에 '미사용' 이라고 적어주세요")
     label.pack(pady=10)
 
     tree = ttk.Treeview(root, columns=("Model ID", "Description", "Memo"), show="headings")
     tree.heading("Model ID", text="Model ID")
     tree.heading("Description", text="Description")
     tree.heading("Memo", text="Memo")
+    
+    tree.column("Model ID", width=260)  # Model ID 열의 너비를 200으로 설정
+    tree.column("Description", width=100)
     tree.pack(fill="both", expand=True)
 
     tk.Label(root, text="Description:").pack(pady=5)
@@ -135,7 +138,9 @@ def select_model(client):
     for model_id in final_models_list:
         description = model_metadata.get(model_id, {}).get('description', '')
         memo = model_metadata.get(model_id, {}).get('memo', '')
-        tree.insert("", tk.END, values=(model_id, description, memo))
+        # tree.insert("", tk.END, values=(model_id, description, memo))
+        if description != "미사용":
+            tree.insert("", tk.END, values=(model_id, description, memo))
 
     tree.bind('<<TreeviewSelect>>', on_model_select)
     root.mainloop()
