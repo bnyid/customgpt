@@ -7,8 +7,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+# .vscode
+.vscode
+
 # C extensions
 *.so
+
+# python 캐시인듯?
+*.pyc
 
 # Distribution / packaging
 .Python
