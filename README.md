@@ -18,8 +18,33 @@
 
 
 
-
-
-
-
 (.gitignore)
+
+
+가상환경을 먼저 생성하고 git clone을 해서,
+터미널에서 실행할때 자꾸 상위폴더를 기점으로 파일을 실행하는 경우
+
+프로젝트 루트디렉토리에
+
+mkdir .vscode
+cd .vscode
+touch launch.json
+
+(.vscode 폴더를 만들어서 들어가고 그안에 launch.json 파일을 만듬)
+
+그 파일 안에 아래 값을 복붙하면 현재파일을 기준으로 실행하게됨
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}"
+        }
+    ]
+}
