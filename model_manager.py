@@ -11,6 +11,7 @@ load_dotenv()
 my_api_key = os.getenv("OPENAI_MY_API_KEY")
 my_spread_sheet_id = os.getenv("SPREADSHEET_MY_ID")
 SHEET_NAME = 'model_meta'
+client = OpenAI(api_key=my_api_key)
 
 # Google Sheets API 자격 증명 설정
 def get_google_sheets_client():
@@ -92,7 +93,9 @@ def select_model(client):
     def select_model_confirm():
         if selected_model:
             messagebox.showinfo("Model Selected", f"'{selected_model}'가 선택되었습니다.")
+            root.quit()
             root.destroy()
+
         else:
             messagebox.showwarning("No Selection", "모델을 선택하지 않았습니다.")
 
@@ -144,9 +147,7 @@ def select_model(client):
 
     tree.bind('<<TreeviewSelect>>', on_model_select)
     root.mainloop()
-
     return selected_model
 
 if __name__ == "__main__":
-    client = OpenAI(api_key=my_api_key)
     select_model(client)

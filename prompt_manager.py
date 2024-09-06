@@ -134,6 +134,7 @@ def prompt_manager():
             selected_type = system_prompts[selected_index]['type']
             selected_memo = system_prompts[selected_index]['memo']
             messagebox.showinfo("선택 완료", f"{selected_type} 프롬프트가 선택되었습니다.")
+            root.quit()
             root.destroy()
         else:
             messagebox.showwarning("선택 오류", "선택된 항목이 없습니다.")
@@ -283,6 +284,7 @@ def prompt_manager():
     text_box.config(state="disabled")
 
     root.mainloop()
+
     return selected_type, selected_prompt
 
 if __name__ == "__main__":
