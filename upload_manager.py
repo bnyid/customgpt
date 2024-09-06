@@ -35,24 +35,7 @@ def upload_file_and_wait(file_path, client):
     return file_upload_response
 
 
-def df_to_jsonl(type, df, sys_prompt, string):
-    formatted_data = []
-    
-    for index, row in df.iterrows():  # 각 행에 대해 index, series 튜플 반환
-        entry = {"messages": [{'role': 'system', 'content': sys_prompt},
-                              {'role': 'user', 'content': row['input']},
-                              {'role': 'assistant', 'content': row['output']}
-                             ]}
-        formatted_data.append(entry)
 
-    file_name = f'{type}_{string}.jsonl'
-    file_path = os.path.abspath(file_name)
-    with open(file_path, 'w') as f:
-        for entry in formatted_data:
-            f.write(json.dumps(entry))
-            f.write("\n")
-    
-    return file_path
 
 
 def check_fine_tuning_status(client, fine_tuning_job_id):
@@ -106,36 +89,6 @@ def start_fine_tuning(client, file_upload_response_train, file_upload_response_v
 
 
 
-def db_to_df():
-    def select_db_file():
-        # Tkinter 윈도우를 숨깁니다
-        root = tk.Tk()
-        root.withdraw()
-
-        # 파일 선택 대화상자 열기
-        file_path = filedialog.askopenfilename(
-            title="학습시킬 DB를 선택하세요.",
-            filetypes=(("CSV files", "*.csv"), ("All files", "*.*"))
-        )
-
-        # 사용자가 선택한 파일 경로 반환
-        return file_path
-
-
-    raw_db_path = select_db_file()
-    raw_df = pd.read_csv(raw_db_path, encoding='utf-8')
-    df = raw_df[['input', 'output']]
-    df = df.dropna(subset=['output'])
-    val_test_data = df.sample(10,random_state=42)
-    val_df = val_test_data.head(5)
-    test_df = val_test_data.tail(5)
-    train_df = df[~df.index.isin(val_test_data.index)]
-    file_name = os.path.splitext(os.path.basename(raw_db_path))[0]
-
-    return val_df,test_df,train_df,file_name
-
-
-    # 학습할 csv 읽어서 변수에 할당하기
 
 
 
