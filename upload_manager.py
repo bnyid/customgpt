@@ -49,10 +49,16 @@ def check_fine_tuning_status(client, fine_tuning_job_id):
             status = fine_tune_status.status
             
             if status == 'succeeded':
+                root = tk.Tk()
+                root.withdraw()
                 messagebox.showinfo("Fine-tuning Complete", "Fine-tuning 작업이 완료되었습니다!")
+                root.destroy()
                 break  # 작업 완료 시 루프 탈출
             elif status == 'failed':
+                root = tk.Tk()
+                root.withdraw()
                 messagebox.showwarning("Fine-tuning Failed", "Fine-tuning 작업이 실패했습니다.")
+                root.destroy()
                 break  # 작업 실패 시 루프 탈출
             else:
                 print(f"Fine-tuning in progress... Status: {status}")

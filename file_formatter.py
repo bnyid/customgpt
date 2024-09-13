@@ -45,7 +45,9 @@ def format_to_jsonl(type, df, sys_prompt, string):
         formatted_data.append(entry)
 
     file_name = f'{type}_{string}.jsonl'
-    file_path = os.path.abspath(file_name)
+    parent_dir = os.path.dirname(os.getcwd())
+    file_path = os.path.join(parent_dir,file_name)
+
     with open(file_path, 'w') as f:
         for entry in formatted_data:
             f.write(json.dumps(entry))

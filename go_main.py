@@ -55,7 +55,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()  # 기본 창을 숨김 (필요하지 않으므로 표시되지 않게)
     result = messagebox.askyesno("Training Cost", f"훈련에는 총 {total_tokens} 토큰이 사용되며, 총 {int(total_cost)}원의 비용이 부과됩니다.\n트레이닝을 시작하겠습니까?")
-    
+    root.destroy()    
 
     
     if result:
@@ -75,6 +75,8 @@ if __name__ == "__main__":
             check_fine_tuning_status(client, fine_tuning_job_id)
         
         except Exception as e:
+            root = tk.Tk()
+            root.withdraw()
             messagebox.showerror("Error", f"Fine-tuning 작업을 시작하는 동안 오류가 발생했습니다: {e}")
             root.destroy()
 
