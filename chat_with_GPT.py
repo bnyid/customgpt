@@ -51,10 +51,25 @@ def paste(event=None):
     except tk.TclError:
         pass
 
+def paste_from_clipboard():
+    try:
+        text_entry.insert(tk.END, root.clipboard_get())
+    except tk.TclError:
+        pass
+
 def enable_copy(event):
     result_text.config(state=tk.NORMAL)
     result_text.event_generate("<<Copy>>")
     result_text.config(state=tk.DISABLED)
+
+def copy_to_clipboard():
+    try:
+        output_content = result_text.get("1.0", tk.END).strip()
+        root.clipboard_clear()
+        root.clipboard_append(output_content)
+        messagebox.showinfo("복사 완료", "출력 내용이 클립보드로 복사되었습니다.")
+    except tk.TclError:
+        pass
 
 def clear_input():
     text_entry.delete("1.0", tk.END)
@@ -132,8 +147,15 @@ main_frame.pack(expand=True, fill=tk.BOTH)
 input_frame = ttk.LabelFrame(main_frame, text="프롬프트 입력", padding=(10, 10))
 input_frame.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
 
+input_frame.columnconfigure(0, weight=1)
+input_frame.rowconfigure(1, weight=1)
+
+# Paste Button above Text Entry
+paste_button = ttk.Button(input_frame, text="clipboard에서 붙여넣기", command=paste_from_clipboard)
+paste_button.grid(row=0, column=0, padx=5, pady=(0, 5), sticky="ew")
+
 text_entry = tk.Text(input_frame, height=15, wrap=tk.WORD, font=("Helvetica", 12), bg=ENTRY_BG_COLOR, fg=TEXT_COLOR)
-text_entry.pack(expand=True, fill=tk.BOTH)
+text_entry.grid(row=1, column=0, sticky="nsew")
 text_entry.bind('<Control-v>', paste)
 text_entry.bind('<Command-v>', paste)
 
@@ -154,8 +176,15 @@ clear_output_button.grid(row=0, column=2, padx=5)
 output_frame = ttk.LabelFrame(main_frame, text="GPT의 답변", padding=(10, 10))
 output_frame.grid(row=2, column=0, padx=10, pady=5, sticky="nsew")
 
+output_frame.columnconfigure(0, weight=1)
+output_frame.rowconfigure(1, weight=1)
+
+# Copy Button above Result Text
+copy_button = ttk.Button(output_frame, text="clipboard로 복사하기", command=copy_to_clipboard)
+copy_button.grid(row=0, column=0, padx=5, pady=(0, 5), sticky="ew")
+
 result_text = tk.Text(output_frame, height=15, wrap=tk.WORD, font=("Helvetica", 12), bg=ENTRY_BG_COLOR, fg=TEXT_COLOR)
-result_text.pack(expand=True, fill=tk.BOTH)
+result_text.grid(row=1, column=0, sticky="nsew")
 result_text.config(state=tk.DISABLED)
 result_text.bind('<Control-c>', enable_copy)
 result_text.bind('<Command-c>', enable_copy)
