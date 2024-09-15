@@ -109,8 +109,22 @@ def show_history(event):
 
 root = tk.Tk()
 root.title("GPT Fine-Tuned Model Interaction")
-root.geometry("1000x700")
 root.resizable(False, False)
+
+# 창 크기 설정
+window_width = 1150
+window_height = 800
+
+# 화면 크기 가져오기
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+# 창의 x, y 좌표 계산 (가로 및 세로 중앙 정렬)
+x = int((screen_width / 2) - (window_width / 2))
+y = int((screen_height / 2) - (window_height / 2)) - 80
+
+# 창의 위치 및 크기 설정
+root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 # 스타일 설정
 style = ttk.Style()
